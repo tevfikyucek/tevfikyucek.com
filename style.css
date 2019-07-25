@@ -12,6 +12,7 @@ main {
   max-width: 38rem;
   padding: 2rem;
   margin: auto;
+    margin-top: 60px;
 }
 
 h1,
@@ -46,14 +47,7 @@ a {
   color: #e81c4f;
 }
 
-section {
-#  width: 100%;
-  padding: 20px;
-#  border-bottom: 1px solid #ccc;
-#  height: 1024px;
-#  text-align: left;
-  margin-top: 60px;
-}
+
 
 # header menu 
 .css-sticky-nav {
@@ -89,6 +83,14 @@ section {
   color: #34495E;
 }
 
-
+section {
+  width: 100%;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+  background: #fff;
+  height: 1024px;
+  text-align: left;
+  margin-top: 60px;
+}
 
 
