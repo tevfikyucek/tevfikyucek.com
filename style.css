@@ -15,18 +15,19 @@
   background: #139ed8;
 }
 
-.ccsticky-nav ul {
+.css-sticky-nav ul {
   padding: 20px;
   margin: 0 auto;
   list-style: none;
   text-align: center;
 }
 
-.ccsticky-nav ul li {
+.css-sticky-nav ul li {
   display: inline-block;
   margin: 0 10px;
 }
-.ccsticky-nav ul li a {
+
+.css-sticky-nav ul li a {
   padding: 10px 0;
   color: #fff;
   font-size: 1rem;
@@ -35,7 +36,7 @@
   transition: all 0.2s ease;
 }
 
-.ccsticky-nav ul li a:hover {
+.css-sticky-nav ul li a:hover {
   color: #34495E;
 }
 
