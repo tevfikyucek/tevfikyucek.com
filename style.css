@@ -1,10 +1,9 @@
 # https://jgthms.com/web-design-in-4-minutes/#spacing
 
 body {
-    margin: auto;
-    max-width: 38rem;
+    /*margin: auto;*/
     font-family: "Helvetica", "Arial", sans-serif;
-    line-height: 1.5;
+    line-height: 3.5;
     color: #566b78;
 }
 
@@ -12,12 +11,12 @@ main {
   max-width: 38rem;
   padding: 2rem;
   margin: auto;
-    margin-top: 60px; #tevfik
+    margin-top: 0px; #tevfik
 }
 
 section {
   width: 100%;
-  padding: 20px;
+  padding: 10px;
   border-bottom: 1px solid #ccc;
   background: #fff;
   /*height: 1024px;*/
