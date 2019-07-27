@@ -1,8 +1,7 @@
-# https://jgthms.com/web-design-in-4-minutes/#spacing
+/*https://jgthms.com/web-design-in-4-minutes/#spacing */
 
 /*
 body {
-    font-family: "Helvetica", "Arial", sans-serif;
     line-height: 1.5;
     color: #566b78;
 }
@@ -58,7 +57,8 @@ a {
 */
 
 
-body{
+body {
+    font-family: "Helvetica", "Arial", sans-serif;
     margin:40px auto;
     max-width:650px;
     line-height:1.6;
@@ -70,7 +70,6 @@ body{
 h1,h2,h3{
     line-height:1.2
 }
-
 
 
 /* header menu */
