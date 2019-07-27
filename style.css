@@ -1,7 +1,7 @@
 # https://jgthms.com/web-design-in-4-minutes/#spacing
 
+/*
 body {
-    /*margin: auto;*/
     font-family: "Helvetica", "Arial", sans-serif;
     line-height: 1.5;
     color: #566b78;
@@ -11,7 +11,7 @@ main {
   max-width: 38rem;
   padding: 2rem;
   margin: auto;
-    margin-top: 0px; #tevfik
+    margin-top: 0px; 
 }
 
 section {
@@ -19,7 +19,6 @@ section {
   padding: 10px;
   border-bottom: 1px solid #ccc;
   background: #fff;
-  /*height: 1024px;*/
   text-align: left;
   margin-top: 60px;
 }
@@ -56,6 +55,22 @@ pre {
 a {
   color: #e81c4f;
 }
+*/
+
+
+body{
+    margin:40px auto;
+    max-width:650px;
+    line-height:1.6;
+    font-size:18px;
+    color:#444;
+    padding:0 10px
+}
+
+h1,h2,h3{
+    line-height:1.2
+}
+
 
 
 /* header menu */
