@@ -72,6 +72,54 @@ h1,h2,h3, strong {
     color: #333
 }
 
+a {
+    text-decoration: none
+}
+
+a:visited {
+    color: #1A0DAB;
+    text-decoration: none
+}
+
+a:hover {
+    background-color: #eee;
+    text-decoration: none
+}
+
+a:active {
+    color: #1A0DAB;
+    text-decoration: none
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 50px
+}
+
+@media screen and (max-width: 600px) {
+    .header {
+        display: block
+    }
+}
+
+.header h1 {
+    font-size: 2em;
+    margin-bottom: 0
+}
+
+.header ul {
+    margin-top: 10px
+}
+
+.header ul li {
+    display: inline;
+    padding: 0;
+    padding-left: 5px
+}
+
 
 /* header menu */
 /*
