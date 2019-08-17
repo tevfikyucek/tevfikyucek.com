@@ -48,6 +48,16 @@
     <p>All views/opinions shared in this site are my own and not my employer's.</p>
     </div>
     <!--<a href="hive_placement.html">Small Detail in Bee-Hive Placement</a>-->
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+
     
 </body>
 
