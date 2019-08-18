@@ -6,4 +6,4 @@ layout: home
 title: Tevfik Yucek
 ---
 
-Test..s.s 
+Welcome to my web-page.. Please find below some of my ramblings about various topics.
