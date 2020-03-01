@@ -33,7 +33,7 @@ minima:
 
 # Build settings
 markdown: kramdown
-theme: midnight
+theme: minima
 
 # create atom.xml 
 plugins:
