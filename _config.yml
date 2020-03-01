@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Tevfik Yucek
-#email: your-email@example.com
+email: myname@tevfikyucek.com
 description: >- # this means to ignore newlines until "baseurl:"
   Welcome to Tevfik's Webpage.
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -23,11 +23,30 @@ twitter_username: tevfikyucek
 github_username: tevfikyucek
 google_analytics: UA-309729-14
 
+
+minima:
+  social_links:
+    twitter: tevfikyucek
+    github: tevfikyucek
+    keybase: tevfikyucek
+
+
 # Build settings
 markdown: kramdown
-theme: minima
+theme: midnight
+
+# create atom.xml 
 plugins:
   - jekyll-feed
+
+header_pages:
+  - about.md
+  - contact.md
+
+#author:
+#  name: Tevfik Yucek
+
+show_excerpts: true
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
