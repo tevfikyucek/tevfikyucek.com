@@ -40,7 +40,7 @@ plugins:
   - jekyll-feed
 
 header_pages:
-  - about.md
+  - rftools.md
   - contact.md
 
 #author:
