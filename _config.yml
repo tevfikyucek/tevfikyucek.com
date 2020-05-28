@@ -47,7 +47,7 @@ header_pages:
 #author:
 #  name: Tevfik Yucek
 
-show_excerpts: true
+show_excerpts: false
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
