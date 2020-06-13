@@ -1,3 +1,3 @@
-# tevfikyucek.github.io
+# tevfikyucek.com
 
 Personal web-page.
