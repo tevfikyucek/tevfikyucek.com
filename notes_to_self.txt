@@ -1,4 +1,6 @@
 Date can be future date.. that is like scheduling a future post. 
 
+https://www.markdownguide.org/basic-syntax
+
 Figures: 
 <figure><img src="/content/images/2020/04/danger_2.jpg" onclick="window.open(this.src)"><figcaption>People Die Here Beware</figcaption></figure>
