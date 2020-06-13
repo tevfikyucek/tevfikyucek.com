@@ -38,7 +38,7 @@ What worked for me is:
 
 That did it for me and copy-paste started working as expected. If **Repair** button does not work, you can try **Reset** button as well.
 
-<figure><img src="/content/images/2020/06/onenote_step1_start.png" onclick="window.open(this.src)"><figcaption>Steps 1, 2, 3 above showing how to open OneNote Settings window.</figcaption></figure>
+<figure><img src="/content/images/2020/06/onenote_step1_start.png" onclick="window.open(this.src)"><figcaption>Steps 1, 2, 3, and 4 above showing how to open OneNote Settings window.</figcaption></figure>
 <figure><img src="/content/images/2020/06/onenote_step2_settings.png" onclick="window.open(this.src)"><figcaption>Step 5 showing OneNote Settings window.</figcaption></figure>
 
 Happy copy-pasting!
