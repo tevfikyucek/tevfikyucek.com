@@ -192,3 +192,5 @@ onloadfunc = function()
     <li><a href="https://www.fcc.gov/ecfs/search/filings?proceedings_name=18-295&q=(proceedings.name:((6%20gh*))%20OR%20proceedings.description:((6%20gh*)))&sort=date_disseminated,DESC">FCC OET Docket 18-295</a>, Unlicensed Use of the 6 GHz Band</li>
     <li><a href="https://www.ecodocdb.dk/download/cc03c766-35f8/ECC%20Report%20302.pdf">CEPT ECC Report 302</a>, Sharing and compatibility studies related to Wireless Access Systems including Radio Local Area Networks (WAS/RLAN) in the 5925-6425 MHz, 2019-03-29</li>
 </ol>
+
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">
