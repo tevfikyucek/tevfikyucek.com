@@ -15,4 +15,3 @@ Unfortunately, I could not find neither queen so we took a change on that one.. 
 
 I will report on the progress in the new hive in the upcoming videos.
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

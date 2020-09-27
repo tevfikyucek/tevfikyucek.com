@@ -24,4 +24,3 @@ A more intelligent way is to define custom line types in an cell array. Here is 
 
 You can change _m1_ and _m2_ cell arrays the way you like.. Just type _help plot_ for other options.
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

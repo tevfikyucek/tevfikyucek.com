@@ -12,4 +12,3 @@ Here is how to convert from decimal numbers to binary 2's complement in Matlab:
 
 where N is the bit-width of binary number.
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

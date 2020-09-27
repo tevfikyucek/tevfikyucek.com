@@ -11,4 +11,3 @@ In the Ark Hives.
 
 (from [reddit r/jokes](https://www.reddit.com/r/Jokes/comments/6u2bbi/where_did_noah_keep_the_bees_during_the_flood/))
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

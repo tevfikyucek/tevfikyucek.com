@@ -30,4 +30,3 @@ Bu güler yüzlü adam ben değilim
 [Cahit Sıtkı Tarancı](https://en.wikipedia.org/wiki/Cahit_Sıtkı_Tarancı), 1946
 
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

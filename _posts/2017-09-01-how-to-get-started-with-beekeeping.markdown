@@ -46,5 +46,3 @@ Bees are the most important item you would need for getting started. Beekeeping 
 
 If you don't want to pay for bees, how about catching a swarm?
 
-
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

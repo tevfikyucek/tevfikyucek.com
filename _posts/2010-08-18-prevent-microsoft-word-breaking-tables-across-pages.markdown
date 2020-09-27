@@ -15,4 +15,3 @@ One annoying thing (among many others) that I have come across using MS word is 
 
 This worked for me on MS Office 2003 and I guess it will also work in never versions of Office.
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

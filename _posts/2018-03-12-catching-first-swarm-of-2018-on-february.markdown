@@ -11,4 +11,3 @@ tags:
 Very early swarm in early February that I've helped a friend catch in his backyard. We initially considered using a box to move the bees but &nbsp;decided on bringing the top-bar hive to the swarm area to shake the bees from plastic fence.
 
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

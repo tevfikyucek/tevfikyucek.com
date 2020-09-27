@@ -34,4 +34,3 @@ None of the pictures in this post uses filters. These pictures do not do justice
 
 NOTE: We have seen a police officer writing tickets to cars parked on the road, so make sure you park legally.
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

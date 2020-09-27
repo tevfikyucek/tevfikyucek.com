@@ -14,4 +14,3 @@ _Boxoff_ both makes the legend transparent and removes the border around legends
 
 More detailed information on how legend's type can be manipulated can be found [here](http://www.mathworks.com/access/helpdesk/help/techdoc/ref/legend.html).
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

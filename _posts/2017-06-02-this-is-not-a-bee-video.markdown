@@ -10,4 +10,3 @@ tags:
 
 I came across this video which explains some details of what is a bee and what is not. The video has interesting information about sting-less species copying the bee pattern to protect them. I am not sure if that is true or not.
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

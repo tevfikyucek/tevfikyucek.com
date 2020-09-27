@@ -11,4 +11,3 @@ In Matlab, x-axis goes from smaller values to larger values. This is true irresp
     ha = gca;
     set(ha, 'xdir', 'reverse');
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

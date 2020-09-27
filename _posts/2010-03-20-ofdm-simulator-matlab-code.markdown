@@ -13,4 +13,3 @@ I've realized that there are a lot of people (mostly EE students) looking for so
 
 The source code for an IEEE 802.11a based WLAN system included with the book can be downloaded from [here](http://www.informit.com/store/ofdm-wireless-lans-a-theoretical-and-practical-guide-9780672321573). Just click the "download" link at the bottom of the book's description. The simulator is also a good example on how to build a structured simulator for any communication system.
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

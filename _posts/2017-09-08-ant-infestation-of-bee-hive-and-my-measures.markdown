@@ -34,5 +34,3 @@ We had ant infestation inside our house and used different baits and traps in th
 
 It has been two days since I've taken these additional measures and ants have disappeared from hive. I'll keep a close eye on them and will update this post if I find that they come back.
 
-
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

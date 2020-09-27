@@ -16,4 +16,3 @@ Needless to say following the same plan for all hives would enable one to use th
 
 <figure class="kg-card kg-image-card"><img src="/content/images/2019/01/top_bar_hive_design.png" class="kg-image"><figcaption>Les Crowder's topbar hive plan</figcaption></figure>
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

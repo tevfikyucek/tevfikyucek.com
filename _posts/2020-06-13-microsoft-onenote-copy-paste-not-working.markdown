@@ -43,4 +43,3 @@ That did it for me and copy-paste started working as expected. If **Repair** but
 
 Happy copy-pasting!
 
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

@@ -12,5 +12,3 @@ tags:
 
 I came across this cool video which (kind-of) explains the reason for "honey coiling". I have definitely observed honey coiling before but never wondered the science behind it honestly. But know I know why it happens.
 
-
-<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">
