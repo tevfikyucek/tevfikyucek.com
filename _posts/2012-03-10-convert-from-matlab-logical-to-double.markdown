@@ -19,3 +19,4 @@ you need to convert logical values to float using _double_ command before operat
       x 1x3 3 logical              
       y 1x3 24 double              
 
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

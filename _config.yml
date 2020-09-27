@@ -22,7 +22,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: tevfikyucek
 github_username: tevfikyucek
 keybase_username: tevfikyucek
-google_analytics: UA-309729-14
+# google_analytics: UA-309729-14
 
 
 minima:

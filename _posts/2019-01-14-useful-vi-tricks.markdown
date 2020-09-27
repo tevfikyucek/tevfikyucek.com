@@ -24,3 +24,5 @@ I use [vim](https://www.vim.org/) and [macVim](https://macvim-dev.github.io/macv
 
 (^M is entered as CTRL-V CTRL-M. In UNIX, you can escape a control character by preceeding it with a CONTROL-V)
 
+
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

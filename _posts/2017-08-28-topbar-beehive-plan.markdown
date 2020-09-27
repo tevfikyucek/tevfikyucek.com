@@ -15,3 +15,5 @@ I like Crowder's plan because it is minimal and does not have any unnecessary ac
 Needless to say following the same plan for all hives would enable one to use the top-bars across multiple hives and you can also swap frames between hives.
 
 <figure class="kg-card kg-image-card"><img src="/content/images/2019/01/top_bar_hive_design.png" class="kg-image"><figcaption>Les Crowder's topbar hive plan</figcaption></figure>
+
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

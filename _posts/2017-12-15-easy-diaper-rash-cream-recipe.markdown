@@ -25,3 +25,5 @@ Setup a double-boiler (I've used old pans), and place coconut oil, olive oil and
 - You can scale amount of cream anyway you want.
 - If you don't add zinc oxide, you get a nice hand lotion.
 - I've bought [this zinc oxide package](https://www.amazon.com/gp/product/B01MY0OCFD?th=1) from Amazon. It is a small packet and cost less than others. Also organic.
+
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

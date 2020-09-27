@@ -13,3 +13,5 @@ I used [ProtonVPN](https://protonvpn.com/) from time to time. It did the job for
 
 So far, it has been working quite nicely and definetely worth the effort of installing and hosting my own VPN server.
 
+
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

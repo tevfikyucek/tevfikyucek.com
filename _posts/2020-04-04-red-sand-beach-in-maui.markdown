@@ -33,3 +33,5 @@ The trail was narrow, hilly and slippery due to rain earlier in the morning. I c
 None of the pictures in this post uses filters. These pictures do not do justice to the beauty of this place. It was simply stunning and was surely  the highlight of our trip to Hana. 
 
 NOTE: We have seen a police officer writing tickets to cars parked on the road, so make sure you park legally.
+
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

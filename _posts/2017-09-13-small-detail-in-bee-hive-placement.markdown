@@ -12,3 +12,5 @@ Last year, I found many dead bees in front of our door and my neighbors also men
 
 This small detail fixes many problems: 1) issues with neighbors, 2) need to clean-up front patio from dead bees, 3) loss of bees.
 
+
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

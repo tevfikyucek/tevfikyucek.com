@@ -59,3 +59,5 @@ Here is how the chimney entrance looks like..
 Here is the final product :)
 
 <figure class="kg-card kg-image-card"><img src="/content/images/2019/04/brick_oven_full.jpg" class="kg-image"></figure>
+
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">

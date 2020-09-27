@@ -11,3 +11,4 @@ I've recently received an Excel file which only had ~140 rows and 10 columns in 
 
 To remove the unused rows, I've used "_CTRL+END_" to go to the last row and deleted all unused rows. Please note that you need to delete the rows, simply clearing/cleaning the rows does not reduce the file size. After saving the file, the size was reduced to 81 kilobytes only.
 
+<img src="https://hitcounter.pythonanywhere.com/count/tag.svg" alt="Hits">
