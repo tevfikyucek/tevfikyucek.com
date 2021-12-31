@@ -14,18 +14,19 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Home
-email: myname@tevfikyucek.com
+email: me@mynamemylastname.com
 description: >- # this means to ignore newlines until "baseurl:"
   Welcome to Tevfik's Webpage.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: tevfikyucek
 github_username: tevfikyucek
-keybase_username: tevfikyucek
+keybase_username: tevfik
 google_analytics: UA-309729-14
 
 
 minima:
+  skin: dark
   social_links:
     twitter: tevfikyucek
     github: tevfikyucek
@@ -42,11 +43,12 @@ plugins:
 
 header_pages:
   - rftools.md
-  - pathloss.md
+#  - pathloss.md
   - contact.md
 
-#author:
-#  name: Tevfik Yucek
+# author:
+#   name: "Tevfik Yucek"
+#   email: "me@mynamemylastname.com"
 
 show_excerpts: false
 
