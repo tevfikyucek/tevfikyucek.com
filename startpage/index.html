@@ -217,31 +217,6 @@
       backdrop-filter: blur(12px);
     }
 
-    .price-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-    }
-
-    .price-item {
-      background: rgba(0, 0, 0, 0.04);
-      border-radius: 12px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .price-item span {
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .price-item strong {
-      font-size: 20px;
-      font-weight: 600;
-    }
-
     .prayer-card {
       gap: 12px;
     }
@@ -264,18 +239,7 @@
       align-items: center;
       padding: 12px;
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.04);
       color: var(--text);
-    }
-
-    :root[data-theme="dark"] .prayer-item {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) .prayer-item {
-        background: rgba(255, 255, 255, 0.08);
-      }
     }
 
     .prayer-name {
@@ -307,18 +271,7 @@
       align-items: center;
       padding: 12px;
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.04);
       color: var(--text);
-    }
-
-    :root[data-theme="dark"] .world-clock-item {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) .world-clock-item {
-        background: rgba(255, 255, 255, 0.08);
-      }
     }
 
     .world-clock-city {
@@ -486,38 +439,31 @@
       </section>
     </div>
 
-    <section class="card" aria-labelledby="market-data-title">
-      <h2 id="market-data-title">Market Snapshot</h2>
-      <div id="market-status" class="muted">Loading prices…</div>
-      <div class="price-list" id="price-list"></div>
-    </section>
-
     <section class="card prayer-card" aria-label="Prayer times">
-      <div id="prayer-status" class="prayer-status">Detecting your location…</div>
-      <div class="prayer-row" id="prayer-times">
+      <div class="prayer-row" id="local-prayer-times">
         <div class="prayer-item">
           <span class="prayer-name">Fajr</span>
-          <span class="prayer-time" id="prayer-fajr">--:--</span>
+          <span class="prayer-time" id="local-prayer-fajr">--:--</span>
         </div>
         <div class="prayer-item">
           <span class="prayer-name">Shuruq</span>
-          <span class="prayer-time" id="prayer-shuruq">--:--</span>
+          <span class="prayer-time" id="local-prayer-shuruq">--:--</span>
         </div>
         <div class="prayer-item">
           <span class="prayer-name">Dhuhr</span>
-          <span class="prayer-time" id="prayer-dhuhr">--:--</span>
+          <span class="prayer-time" id="local-prayer-dhuhr">--:--</span>
         </div>
         <div class="prayer-item">
           <span class="prayer-name">Asr</span>
-          <span class="prayer-time" id="prayer-asr">--:--</span>
+          <span class="prayer-time" id="local-prayer-asr">--:--</span>
         </div>
         <div class="prayer-item">
           <span class="prayer-name">Maghrib</span>
-          <span class="prayer-time" id="prayer-maghrib">--:--</span>
+          <span class="prayer-time" id="local-prayer-maghrib">--:--</span>
         </div>
         <div class="prayer-item">
           <span class="prayer-name">Isha</span>
-          <span class="prayer-time" id="prayer-isha">--:--</span>
+          <span class="prayer-time" id="local-prayer-isha">--:--</span>
         </div>
       </div>
     </section>
@@ -566,8 +512,6 @@
     const dateEl = document.getElementById('date');
     const googleForm = document.getElementById('google-search');
     const gptForm = document.getElementById('gpt-search');
-    const marketStatusEl = document.getElementById('market-status');
-    const priceListEl = document.getElementById('price-list');
     const verseTextEl = document.getElementById('verse-text');
     const verseMetaEl = document.getElementById('verse-meta');
     const verseArabicEl = document.getElementById('verse-arabic');
@@ -575,14 +519,13 @@
     const weatherDetailsEl = document.getElementById('weather-details');
     const weatherForecastEl = document.getElementById('weather-forecast');
     const themeToggleBtn = document.getElementById('theme-toggle');
-    const prayerStatusEl = document.getElementById('prayer-status');
-    const prayerTimeEls = {
-      Fajr: document.getElementById('prayer-fajr'),
-      Sunrise: document.getElementById('prayer-shuruq'),
-      Dhuhr: document.getElementById('prayer-dhuhr'),
-      Asr: document.getElementById('prayer-asr'),
-      Maghrib: document.getElementById('prayer-maghrib'),
-      Isha: document.getElementById('prayer-isha'),
+    const localPrayerTimeEls = {
+      Fajr: document.getElementById('local-prayer-fajr'),
+      Sunrise: document.getElementById('local-prayer-shuruq'),
+      Dhuhr: document.getElementById('local-prayer-dhuhr'),
+      Asr: document.getElementById('local-prayer-asr'),
+      Maghrib: document.getElementById('local-prayer-maghrib'),
+      Isha: document.getElementById('local-prayer-isha'),
     };
     const worldClockFormatters = Array.from(document.querySelectorAll('.world-clock-time'))
       .map((element) => {
@@ -608,6 +551,134 @@
     function normalizeAmPm(value) {
       if (typeof value !== 'string') return value;
       return value.replace(/\b(a|p)\.?m\.?\b/gi, (_, period) => `${period.toUpperCase()}M`);
+    }
+
+    function formatClockTime(date) {
+      if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '--:--';
+      return normalizeAmPm(
+        date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true })
+      );
+    }
+
+    function setLocalPrayerTimesPlaceholder(value = '--:--') {
+      Object.values(localPrayerTimeEls).forEach((element) => {
+        if (element) element.textContent = value;
+      });
+    }
+
+    function toRadians(degrees) {
+      return (degrees * Math.PI) / 180;
+    }
+
+    function normalizeDegrees(value) {
+      const result = value % 360;
+      return result < 0 ? result + 360 : result;
+    }
+
+    function calculateSolarGeometry(julianDay) {
+      const n = julianDay - 2451545.0;
+      const g = toRadians(357.529 + 0.98560028 * n);
+      const q = 280.459 + 0.98564736 * n;
+      let L = q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g);
+      L = normalizeDegrees(L);
+      const e = toRadians(23.439 - 0.00000036 * n);
+      const Lrad = toRadians(L);
+      const declination = Math.asin(Math.sin(e) * Math.sin(Lrad));
+      const equationOfTime =
+        229.18 *
+        (0.000075 +
+          0.001868 * Math.cos(g) -
+          0.032077 * Math.sin(g) -
+          0.014615 * Math.cos(2 * g) -
+          0.040849 * Math.sin(2 * g));
+      return { declination, equationOfTime };
+    }
+
+    function calculateHourAngle(latitudeRad, declination, solarAngle) {
+      const numerator = Math.sin(solarAngle) - Math.sin(latitudeRad) * Math.sin(declination);
+      const denominator = Math.cos(latitudeRad) * Math.cos(declination);
+      const value = numerator / denominator;
+      if (value < -1 || value > 1) return NaN;
+      return Math.acos(value);
+    }
+
+    function calculateLocalPrayerTimes(latitude, longitude, date = new Date(), options = {}) {
+      const settings = {
+        fajrAngle: typeof options.fajrAngle === 'number' ? options.fajrAngle : 15,
+        ishaAngle: typeof options.ishaAngle === 'number' ? options.ishaAngle : 15,
+        asrShadow: options.asrShadow === 1 ? 1 : 2,
+      };
+      const baseDate = new Date(date);
+      const year = baseDate.getFullYear();
+      const month = baseDate.getMonth();
+      const day = baseDate.getDate();
+      const timezoneOffsetHours = -baseDate.getTimezoneOffset() / 60;
+      const midnight = Date.UTC(year, month, day);
+      const julianDay = midnight / 86400000 + 2440587.5;
+      const { declination, equationOfTime } = calculateSolarGeometry(julianDay);
+      const latitudeRad = toRadians(latitude);
+      const solarNoon = (720 - 4 * longitude - equationOfTime + timezoneOffsetHours * 60) / 60;
+      const radToHours = 12 / Math.PI;
+
+      const fajrAngle = toRadians(-settings.fajrAngle);
+      const ishaAngle = toRadians(-settings.ishaAngle);
+      const sunriseSunsetAngle = toRadians(-0.833);
+      const asrAltitude = Math.atan(
+        1 / (settings.asrShadow + Math.tan(Math.abs(latitudeRad - declination)))
+      );
+
+      const fajrHourAngle = calculateHourAngle(latitudeRad, declination, fajrAngle);
+      const sunriseHourAngle = calculateHourAngle(latitudeRad, declination, sunriseSunsetAngle);
+      const asrHourAngle = calculateHourAngle(latitudeRad, declination, asrAltitude);
+      const sunsetHourAngle = sunriseHourAngle;
+      const ishaHourAngle = calculateHourAngle(latitudeRad, declination, ishaAngle);
+
+      const times = {
+        Fajr: solarNoon - radToHours * fajrHourAngle,
+        Sunrise: solarNoon - radToHours * sunriseHourAngle,
+        Dhuhr: solarNoon,
+        Asr: solarNoon + radToHours * asrHourAngle,
+        Maghrib: solarNoon + radToHours * sunsetHourAngle,
+        Isha: solarNoon + radToHours * ishaHourAngle,
+      };
+
+      const invalid = Object.values(times).some((value) => Number.isNaN(value));
+      if (invalid) return null;
+
+      const results = {};
+      Object.entries(times).forEach(([name, hourValue]) => {
+        if (typeof hourValue !== 'number' || !Number.isFinite(hourValue)) {
+          results[name] = null;
+          return;
+        }
+        const normalizedHours = ((hourValue % 24) + 24) % 24;
+        const hours = Math.floor(normalizedHours);
+        const minutes = Math.round((normalizedHours - hours) * 60);
+        const target = new Date(year, month, day, 0, 0, 0, 0);
+        target.setHours(hours, minutes, 0, 0);
+        results[name] = target;
+      });
+      return results;
+    }
+
+    function updateLocalPrayerTimes(latitude, longitude, date = new Date()) {
+      setLocalPrayerTimesPlaceholder('--:--');
+      try {
+        const times = calculateLocalPrayerTimes(latitude, longitude, date);
+        if (!times) {
+          setLocalPrayerTimesPlaceholder();
+          return;
+        }
+        Object.entries(times).forEach(([name, timeValue]) => {
+          const element = localPrayerTimeEls[name];
+          if (element) {
+            element.textContent = formatClockTime(timeValue);
+          }
+        });
+      } catch (error) {
+        console.error('Local prayer time calculation failed', error);
+        setLocalPrayerTimesPlaceholder();
+      }
     }
 
     function updateClock() {
@@ -642,62 +713,6 @@
         const url = `https://chatgpt.com/?q=${encodeURIComponent(query)}`;
         window.open(url, '_blank', 'noopener');
       });
-    }
-
-    async function loadMarketData() {
-      const symbols = [
-        { symbol: 'BTC-USD', label: 'Bitcoin' },
-        { symbol: 'QCOM', label: 'Qualcomm' },
-        { symbol: 'VTSAX', label: 'VTSAX' },
-        { symbol: 'VTIAX', label: 'VTIAX' },
-      ];
-      const endpoint = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols.map((s) => s.symbol).join(',')}`;
-      const proxyUrls = [
-        `https://corsproxy.io/?${encodeURIComponent(endpoint)}`,
-        `https://r.jina.ai/https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols.map((s) => s.symbol).join(',')}`,
-      ];
-
-      let quotes = null;
-      let lastError = null;
-
-      for (const url of proxyUrls) {
-        try {
-          const response = await fetch(url);
-          if (!response.ok) throw new Error(`Quote request failed (${response.status})`);
-          const text = await response.text();
-          const payload = JSON.parse(text);
-          const results = payload.quoteResponse?.result ?? [];
-          if (!results.length) throw new Error('No market data found');
-          quotes = results;
-          lastError = null;
-          break;
-        } catch (error) {
-          lastError = error;
-          console.error('Market data attempt failed', url, error);
-        }
-      }
-
-      if (!quotes) {
-        marketStatusEl.textContent = 'Unable to load market data right now.';
-        if (lastError) console.error('Market data unavailable', lastError);
-        return;
-      }
-
-      priceListEl.innerHTML = '';
-      symbols.forEach(({ symbol, label }) => {
-        const quote = quotes.find((item) => item.symbol === symbol);
-        const price = quote?.regularMarketPrice;
-        const currency = quote?.currency || 'USD';
-        const card = document.createElement('div');
-        card.className = 'price-item';
-        card.innerHTML = `
-          <span>${label}</span>
-          <strong>${price ? price.toLocaleString(undefined, { style: 'currency', currency }) : '—'}</strong>
-          <span>${quote?.regularMarketTime ? new Date(quote.regularMarketTime * 1000).toLocaleString() : ''}</span>
-        `;
-        priceListEl.appendChild(card);
-      });
-      marketStatusEl.textContent = 'Last refreshed just now.';
     }
 
     function getRandomAyahNumber() {
@@ -740,24 +755,6 @@
       } catch (error) {
         console.error('Unable to clear cached location', error);
       }
-    }
-
-    function formatPrayerTime(timeString, dateString) {
-      if (!timeString || !dateString) return '--:--';
-      const cleanTime = timeString.split(' ')[0];
-      if (!cleanTime.includes(':')) return cleanTime;
-      const [day, month, year] = dateString.split('-');
-      if (!day || !month || !year) return cleanTime;
-      const isoDate = `${year}-${month}-${day}`;
-      const date = new Date(`${isoDate}T${cleanTime}:00`);
-      if (Number.isNaN(date.getTime())) return cleanTime;
-      return normalizeAmPm(date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }));
-    }
-
-    function setPrayerTimesPlaceholder(value = '--:--') {
-      Object.values(prayerTimeEls).forEach((element) => {
-        if (element) element.textContent = value;
-      });
     }
 
     function readStoredTheme() {
@@ -914,61 +911,21 @@
       }
     }
 
-    async function fetchPrayerTimes(latitude, longitude) {
-      if (!prayerStatusEl) return;
-      prayerStatusEl.textContent = 'Fetching prayer times…';
-      const url = `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2&school=1`;
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Prayer times request failed');
-        const payload = await response.json();
-        const timings = payload?.data?.timings;
-        const dateString = payload?.data?.date?.gregorian?.date;
-        if (!timings || !dateString) throw new Error('Missing prayer timings');
-        const targetTimings = {
-          Fajr: timings.Fajr,
-          Sunrise: timings.Sunrise,
-          Dhuhr: timings.Dhuhr,
-          Asr: timings.Asr,
-          Maghrib: timings.Maghrib,
-          Isha: timings.Isha,
-        };
-        Object.entries(targetTimings).forEach(([name, timeValue]) => {
-          const element = prayerTimeEls[name];
-          if (element) {
-            element.textContent = formatPrayerTime(timeValue, dateString);
-          }
-        });
-        prayerStatusEl.textContent = 'Prayer times • ISNA (Hanafi)';
-      } catch (error) {
-        prayerStatusEl.textContent = 'Unable to load prayer times.';
-        setPrayerTimesPlaceholder();
-        console.error(error);
-      }
-    }
-
     function requestWeather() {
       weatherDetailsEl.textContent = '--°F';
       weatherForecastEl.textContent = 'Detecting your location…';
-      if (prayerStatusEl) {
-        prayerStatusEl.textContent = 'Detecting your location…';
-        setPrayerTimesPlaceholder();
-      }
+      setLocalPrayerTimesPlaceholder();
 
       const cached = getCachedLocation();
       if (cached) {
         weatherForecastEl.textContent = 'Loading forecast…';
         fetchWeather(cached.latitude, cached.longitude);
-        fetchPrayerTimes(cached.latitude, cached.longitude);
+        updateLocalPrayerTimes(cached.latitude, cached.longitude);
         return;
       }
 
       if (!navigator.geolocation) {
         weatherForecastEl.textContent = 'Geolocation is not supported by your browser.';
-        if (prayerStatusEl) {
-          prayerStatusEl.textContent = 'Geolocation is not supported by your browser.';
-          setPrayerTimesPlaceholder();
-        }
         return;
       }
 
@@ -978,7 +935,7 @@
           setCachedLocation(latitude, longitude);
           weatherForecastEl.textContent = 'Loading forecast…';
           fetchWeather(latitude, longitude);
-          fetchPrayerTimes(latitude, longitude);
+          updateLocalPrayerTimes(latitude, longitude);
         },
         (error) => {
           if (error.code === error.PERMISSION_DENIED) {
@@ -988,10 +945,7 @@
             weatherForecastEl.textContent = 'Unable to determine your location.';
           }
           weatherDetailsEl.textContent = '--°F';
-          if (prayerStatusEl) {
-            prayerStatusEl.textContent = 'Unable to determine your location.';
-            setPrayerTimesPlaceholder();
-          }
+          setLocalPrayerTimesPlaceholder();
           console.error(error);
         },
         { enableHighAccuracy: false, timeout: 10000 }
@@ -1003,7 +957,6 @@
       setInterval(updateClock, 1000);
 
       setUpSearchForms();
-      loadMarketData();
       loadRandomVerse();
       requestWeather();
     });
