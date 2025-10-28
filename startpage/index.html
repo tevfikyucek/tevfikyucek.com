@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Page</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f2f4f8;
+      --card-bg: #ffffffcc;
+      --text: #1a1a1a;
+      --muted: #555;
+      --accent: #0066cc;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #11161c;
+        --card-bg: #1c2230cc;
+        --text: #f5f5f5;
+        --muted: #bbb;
+        --accent: #4ea3ff;
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 48px 16px 32px;
+    }
+
+    .page {
+      width: min(100%, 960px);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+
+    #time {
+      font-size: clamp(48px, 8vw, 72px);
+      font-weight: 600;
+      margin: 0;
+    }
+
+    #date {
+      margin: 0;
+      font-size: clamp(18px, 3vw, 24px);
+      color: var(--muted);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    input[type="search"] {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      font-size: 16px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input[type="search"]:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.25);
+    }
+
+    button {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .price-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .price-item {
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .price-item span {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .price-item strong {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    #verse-text {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    #verse-meta {
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    #weather {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 32px 12px 24px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div id="time">--:--</div>
+      <div id="date">Loading date…</div>
+    </header>
+
+    <div class="cards">
+      <section class="card" aria-labelledby="search-google-title">
+        <h2 id="search-google-title">Search Google</h2>
+        <form id="google-search">
+          <input type="search" name="query" placeholder="Search the web…" autocomplete="off" />
+          <button type="submit">Search</button>
+        </form>
+      </section>
+
+      <section class="card" aria-labelledby="ask-gpt-title">
+        <h2 id="ask-gpt-title">Ask GPT</h2>
+        <form id="gpt-search">
+          <input type="search" name="query" placeholder="Start a new chat…" autocomplete="off" />
+          <button type="submit">Ask</button>
+        </form>
+        <p class="muted">Opens ChatGPT in a new tab with your prompt.</p>
+      </section>
+    </div>
+
+    <section class="card" aria-labelledby="market-data-title">
+      <h2 id="market-data-title">Market Snapshot</h2>
+      <div id="market-status" class="muted">Loading prices…</div>
+      <div class="price-list" id="price-list"></div>
+    </section>
+
+    <section class="card" aria-labelledby="verse-title">
+      <h2 id="verse-title">Quran Verse</h2>
+      <div id="verse-text" class="muted">Fetching an ayah…</div>
+      <div id="verse-meta"></div>
+      <button type="button" id="refresh-verse">Show Another Verse</button>
+    </section>
+
+    <section class="card" aria-labelledby="weather-title">
+      <h2 id="weather-title">Weather</h2>
+      <div id="weather">
+        <div id="weather-status" class="muted">Detecting your location…</div>
+        <div id="weather-details"></div>
+      </div>
+      <button type="button" id="retry-weather">Retry Location</button>
+    </section>
+  </div>
+
+  <script>
+    const timeEl = document.getElementById('time');
+    const dateEl = document.getElementById('date');
+    const googleForm = document.getElementById('google-search');
+    const gptForm = document.getElementById('gpt-search');
+    const marketStatusEl = document.getElementById('market-status');
+    const priceListEl = document.getElementById('price-list');
+    const verseTextEl = document.getElementById('verse-text');
+    const verseMetaEl = document.getElementById('verse-meta');
+    const refreshVerseBtn = document.getElementById('refresh-verse');
+    const weatherStatusEl = document.getElementById('weather-status');
+    const weatherDetailsEl = document.getElementById('weather-details');
+    const retryWeatherBtn = document.getElementById('retry-weather');
+
+    function updateClock() {
+      const now = new Date();
+      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      timeEl.textContent = now.toLocaleTimeString('en-US', timeOptions);
+      dateEl.textContent = now.toLocaleDateString(undefined, dateOptions);
+    }
+
+    function setUpSearchForms() {
+      googleForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const query = event.target.query.value.trim();
+        if (!query) return;
+        const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        window.open(url, '_blank', 'noopener');
+      });
+
+      gptForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const query = event.target.query.value.trim();
+        if (!query) return;
+        const url = `https://chatgpt.com/?q=${encodeURIComponent(query)}`;
+        window.open(url, '_blank', 'noopener');
+      });
+    }
+
+    async function loadMarketData() {
+      const symbols = [
+        { symbol: 'BTC-USD', label: 'Bitcoin' },
+        { symbol: 'QCOM', label: 'Qualcomm' },
+        { symbol: 'VTSAX', label: 'VTSAX' },
+        { symbol: 'VTIAX', label: 'VTIAX' },
+      ];
+      const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols.map((s) => s.symbol).join(',')}`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Quote request failed');
+        const payload = await response.json();
+        const quotes = payload.quoteResponse?.result ?? [];
+        if (!quotes.length) throw new Error('No market data found');
+
+        priceListEl.innerHTML = '';
+        symbols.forEach(({ symbol, label }) => {
+          const quote = quotes.find((item) => item.symbol === symbol);
+          const price = quote?.regularMarketPrice;
+          const currency = quote?.currency || 'USD';
+          const card = document.createElement('div');
+          card.className = 'price-item';
+          card.innerHTML = `
+            <span>${label}</span>
+            <strong>${price ? price.toLocaleString(undefined, { style: 'currency', currency }) : '—'}</strong>
+            <span>${quote?.regularMarketTime ? new Date(quote.regularMarketTime * 1000).toLocaleString() : ''}</span>
+          `;
+          priceListEl.appendChild(card);
+        });
+        marketStatusEl.textContent = 'Last refreshed just now.';
+      } catch (error) {
+        marketStatusEl.textContent = 'Unable to load market data right now.';
+        console.error(error);
+      }
+    }
+
+    function getRandomAyahNumber() {
+      const totalAyat = 6236;
+      return Math.floor(Math.random() * totalAyat) + 1;
+    }
+
+    async function loadRandomVerse() {
+      verseMetaEl.textContent = '';
+      verseTextEl.textContent = 'Fetching an ayah…';
+      const ayahNumber = getRandomAyahNumber();
+      const url = `https://api.alquran.cloud/v1/ayah/${ayahNumber}/en.asad`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Verse request failed');
+        const payload = await response.json();
+        const ayah = payload.data;
+        verseTextEl.textContent = ayah.text;
+        verseMetaEl.textContent = `${ayah.surah.englishName} (${ayah.surah.englishNameTranslation}) • Ayah ${ayah.numberInSurah}`;
+      } catch (error) {
+        verseTextEl.textContent = 'Unable to load a verse right now.';
+        verseMetaEl.textContent = '';
+        console.error(error);
+      }
+    }
+
+    const weatherCodeMap = {
+      0: 'Clear sky',
+      1: 'Mainly clear',
+      2: 'Partly cloudy',
+      3: 'Overcast',
+      45: 'Fog',
+      48: 'Depositing rime fog',
+      51: 'Light drizzle',
+      53: 'Moderate drizzle',
+      55: 'Dense drizzle',
+      56: 'Freezing drizzle',
+      57: 'Freezing drizzle (dense)',
+      61: 'Slight rain',
+      63: 'Moderate rain',
+      65: 'Heavy rain',
+      66: 'Freezing rain',
+      67: 'Freezing rain (heavy)',
+      71: 'Slight snow',
+      73: 'Moderate snow',
+      75: 'Heavy snow',
+      77: 'Snow grains',
+      80: 'Slight rain showers',
+      81: 'Moderate rain showers',
+      82: 'Violent rain showers',
+      85: 'Slight snow showers',
+      86: 'Heavy snow showers',
+      95: 'Thunderstorm',
+      96: 'Thunderstorm with hail',
+      99: 'Severe thunderstorm with hail',
+    };
+
+    function describeWeatherCode(code) {
+      return weatherCodeMap[code] || 'Current weather';
+    }
+
+    async function fetchWeather(latitude, longitude) {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&timezone=auto`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Weather request failed');
+        const payload = await response.json();
+        const current = payload.current_weather;
+        if (!current) throw new Error('Missing weather data');
+
+        weatherStatusEl.textContent = describeWeatherCode(current.weathercode);
+        weatherDetailsEl.textContent = `Temperature ${current.temperature}°C · Wind ${current.windspeed} km/h`;
+      } catch (error) {
+        weatherStatusEl.textContent = 'Unable to load weather.';
+        weatherDetailsEl.textContent = '';
+        console.error(error);
+      }
+    }
+
+    function requestWeather() {
+      weatherStatusEl.textContent = 'Detecting your location…';
+      weatherDetailsEl.textContent = '';
+      if (!navigator.geolocation) {
+        weatherStatusEl.textContent = 'Geolocation is not supported by your browser.';
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          weatherStatusEl.textContent = 'Fetching weather…';
+          fetchWeather(latitude, longitude);
+        },
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            weatherStatusEl.textContent = 'Location permission denied. Please allow access to see the weather.';
+          } else {
+            weatherStatusEl.textContent = 'Unable to determine your location.';
+          }
+          weatherDetailsEl.textContent = '';
+          console.error(error);
+        },
+        { enableHighAccuracy: false, timeout: 10000 }
+      );
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      setUpSearchForms();
+      loadMarketData();
+      loadRandomVerse();
+      requestWeather();
+
+      refreshVerseBtn.addEventListener('click', loadRandomVerse);
+      retryWeatherBtn.addEventListener('click', requestWeather);
+    });
+  </script>
+</body>
+</html>
