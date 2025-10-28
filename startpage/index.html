@@ -290,6 +290,49 @@
       font-weight: 600;
     }
 
+    .world-clock-card {
+      gap: 12px;
+    }
+
+    .world-clock-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 12px;
+    }
+
+    .world-clock-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--text);
+    }
+
+    :root[data-theme="dark"] .world-clock-item {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .world-clock-item {
+        background: rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    .world-clock-city {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .world-clock-time {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
     .search-card form {
       width: 100%;
     }
@@ -479,6 +522,35 @@
       </div>
     </section>
 
+    <section class="card world-clock-card" aria-label="World clocks">
+      <div class="world-clock-row" id="world-clock-row">
+        <div class="world-clock-item">
+          <span class="world-clock-city">Karabuk</span>
+          <span class="world-clock-time" data-timezone="Europe/Istanbul">--:--</span>
+        </div>
+        <div class="world-clock-item">
+          <span class="world-clock-city">London</span>
+          <span class="world-clock-time" data-timezone="Europe/London">--:--</span>
+        </div>
+        <div class="world-clock-item">
+          <span class="world-clock-city">Copenhagen</span>
+          <span class="world-clock-time" data-timezone="Europe/Copenhagen">--:--</span>
+        </div>
+        <div class="world-clock-item">
+          <span class="world-clock-city">Bangalore</span>
+          <span class="world-clock-time" data-timezone="Asia/Kolkata">--:--</span>
+        </div>
+        <div class="world-clock-item">
+          <span class="world-clock-city">Tokyo</span>
+          <span class="world-clock-time" data-timezone="Asia/Tokyo">--:--</span>
+        </div>
+        <div class="world-clock-item">
+          <span class="world-clock-city">Sydney</span>
+          <span class="world-clock-time" data-timezone="Australia/Sydney">--:--</span>
+        </div>
+      </div>
+    </section>
+
     <section class="card verse-card" aria-label="Quran verse">
       <div class="verse-header">
         <div id="verse-meta" class="muted">Loading verse details…</div>
@@ -512,18 +584,46 @@
       Maghrib: document.getElementById('prayer-maghrib'),
       Isha: document.getElementById('prayer-isha'),
     };
+    const worldClockFormatters = Array.from(document.querySelectorAll('.world-clock-time'))
+      .map((element) => {
+        const timezone = element.dataset.timezone;
+        if (!timezone) return null;
+        return {
+          element,
+          formatter: new Intl.DateTimeFormat('en-GB', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZone: timezone,
+          }),
+        };
+      })
+      .filter(Boolean);
 
     const LOCATION_CACHE_KEY = 'startpage:weatherLocation';
     const LOCATION_CACHE_DURATION = 30 * 60 * 1000; // 30 minutes
     const THEME_STORAGE_KEY = 'startpage:theme';
     const prefersDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
 
+    function normalizeAmPm(value) {
+      if (typeof value !== 'string') return value;
+      return value.replace(/\b(a|p)\.?m\.?\b/gi, (_, period) => `${period.toUpperCase()}M`);
+    }
+
     function updateClock() {
       const now = new Date();
       const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
       const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      timeEl.textContent = now.toLocaleTimeString('en-US', timeOptions);
+      timeEl.textContent = normalizeAmPm(now.toLocaleTimeString('en-US', timeOptions));
       dateEl.textContent = now.toLocaleDateString(undefined, dateOptions);
+      updateWorldClocks(now);
+    }
+
+    function updateWorldClocks(now) {
+      if (!worldClockFormatters.length) return;
+      worldClockFormatters.forEach(({ element, formatter }) => {
+        element.textContent = normalizeAmPm(formatter.format(now));
+      });
     }
 
     function setUpSearchForms() {
@@ -651,7 +751,7 @@
       const isoDate = `${year}-${month}-${day}`;
       const date = new Date(`${isoDate}T${cleanTime}:00`);
       if (Number.isNaN(date.getTime())) return cleanTime;
-      return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      return normalizeAmPm(date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true }));
     }
 
     function setPrayerTimesPlaceholder(value = '--:--') {
@@ -731,19 +831,19 @@
       openVerseLink.setAttribute('aria-disabled', 'true');
       openVerseLink.href = 'https://quran.com';
       const ayahNumber = getRandomAyahNumber();
-      const url = `https://api.alquran.cloud/v1/ayah/${ayahNumber}/editions/quran-uthmani,en.asad`;
+      const url = `https://api.alquran.cloud/v1/ayah/${ayahNumber}/editions/quran-uthmani,tr.yildirim`;
       try {
         const response = await fetch(url);
         if (!response.ok) throw new Error('Verse request failed');
         const payload = await response.json();
         const data = Array.isArray(payload.data) ? payload.data : [payload.data];
         const arabicEdition = data.find((item) => item.edition?.language === 'ar');
-        const englishEdition = data.find((item) => item.edition?.language === 'en') || data[0];
+        const translationEdition = data.find((item) => item.edition?.identifier === 'tr.yildirim') || data.find((item) => item.edition?.language === 'tr') || data[0];
 
-        if (!englishEdition) throw new Error('Missing verse translation');
+        if (!translationEdition) throw new Error('Missing verse translation');
 
-        verseTextEl.textContent = englishEdition.text;
-        verseMetaEl.textContent = `${englishEdition.surah.englishName} (${englishEdition.surah.englishNameTranslation}) • Ayah ${englishEdition.numberInSurah}`;
+        verseTextEl.textContent = translationEdition.text;
+        verseMetaEl.textContent = `${translationEdition.surah.englishName} (${translationEdition.surah.englishNameTranslation}) • Ayet ${translationEdition.numberInSurah}`;
 
         if (arabicEdition) {
           verseArabicEl.textContent = arabicEdition.text;
@@ -751,10 +851,10 @@
           verseArabicEl.textContent = '';
         }
 
-        const surahNumber = englishEdition.surah.number;
-        const ayahInSurah = englishEdition.numberInSurah;
+        const surahNumber = translationEdition.surah.number;
+        const ayahInSurah = translationEdition.numberInSurah;
         openVerseLink.href = `https://quran.com/${surahNumber}/${ayahInSurah}`;
-        openVerseLink.setAttribute('aria-label', `Open ${englishEdition.surah.englishName} ayah ${ayahInSurah} on Quran.com`);
+        openVerseLink.setAttribute('aria-label', `Open ${translationEdition.surah.englishName} ayah ${ayahInSurah} on Quran.com`);
         openVerseLink.removeAttribute('aria-disabled');
       } catch (error) {
         verseTextEl.textContent = 'Unable to load a verse right now.';
