@@ -143,12 +143,6 @@
       color: var(--muted);
     }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(12px);
@@ -290,6 +284,10 @@
       width: 100%;
     }
 
+    .search-card form + form {
+      margin-top: 16px;
+    }
+
     .search-card input[type="search"] {
       width: 100%;
       padding: 16px 20px;
@@ -425,19 +423,14 @@
       </div>
     </header>
 
-    <div class="cards">
-      <section class="card search-card" aria-label="Search Google">
-        <form id="google-search">
-          <input type="search" name="query" placeholder="Search the web…" autocomplete="off" />
-        </form>
-      </section>
-
-      <section class="card search-card" aria-label="Ask GPT">
-        <form id="gpt-search">
-          <input type="search" name="query" placeholder="Start a new chat…" autocomplete="off" />
-        </form>
-      </section>
-    </div>
+    <section class="card search-card" aria-label="Quick searches">
+      <form id="google-search">
+        <input type="search" name="query" placeholder="Search the web…" autocomplete="off" />
+      </form>
+      <form id="gpt-search">
+        <input type="search" name="query" placeholder="Start a new chat…" autocomplete="off" />
+      </form>
+    </section>
 
     <section class="card prayer-card" aria-label="Prayer times">
       <div class="prayer-row" id="local-prayer-times">
