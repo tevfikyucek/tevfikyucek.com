@@ -696,7 +696,7 @@
         const query = event.target.query.value.trim();
         if (!query) return;
         const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-        window.open(url, '_blank', 'noopener');
+        window.location.href = url;
       });
 
       gptForm.addEventListener('submit', (event) => {
@@ -704,7 +704,7 @@
         const query = event.target.query.value.trim();
         if (!query) return;
         const url = `https://chatgpt.com/?q=${encodeURIComponent(query)}`;
-        window.open(url, '_blank', 'noopener');
+        window.location.href = url;
       });
     }
 
