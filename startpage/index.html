@@ -300,64 +300,6 @@
       font-size: 15px;
     }
 
-    .verse-card {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .verse-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .verse-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(0, 102, 204, 0.12);
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 18px;
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
-
-    .verse-link:hover {
-      background: rgba(0, 102, 204, 0.2);
-      transform: translateY(-1px);
-    }
-
-    .verse-link[aria-disabled="true"] {
-      opacity: 0.4;
-      pointer-events: none;
-    }
-
-    .verse-link:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .verse-arabic {
-      font-size: 24px;
-      line-height: 1.8;
-      direction: rtl;
-      text-align: right;
-    }
-
-    .verse-text {
-      font-size: 18px;
-      line-height: 1.6;
-    }
-
-    #verse-meta {
-      font-size: 15px;
-      color: var(--muted);
-    }
 
     #weather {
       display: flex;
@@ -489,15 +431,6 @@
         </div>
       </div>
     </section>
-
-    <section class="card verse-card" aria-label="Quran verse">
-      <div class="verse-header">
-        <div id="verse-meta" class="muted">Loading verse details…</div>
-        <a id="open-verse" class="verse-link" href="https://quran.com" target="_blank" rel="noopener" aria-label="Open verse on Quran.com" aria-disabled="true">↗</a>
-      </div>
-      <div id="verse-arabic" class="verse-arabic">Loading Arabic text...</div>
-      <div id="verse-text" class="verse-text">Fetching an ayah…</div>
-    </section>
   </div>
 
   <script>
@@ -505,10 +438,6 @@
     const dateEl = document.getElementById('date');
     const googleForm = document.getElementById('google-search');
     const gptForm = document.getElementById('gpt-search');
-    const verseTextEl = document.getElementById('verse-text');
-    const verseMetaEl = document.getElementById('verse-meta');
-    const verseArabicEl = document.getElementById('verse-arabic');
-    const openVerseLink = document.getElementById('open-verse');
     const weatherDetailsEl = document.getElementById('weather-details');
     const weatherForecastEl = document.getElementById('weather-forecast');
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -708,11 +637,6 @@
       });
     }
 
-    function getRandomAyahNumber() {
-      const totalAyat = 6236;
-      return Math.floor(Math.random() * totalAyat) + 1;
-    }
-
     function getCachedLocation() {
       try {
         const stored = localStorage.getItem(LOCATION_CACHE_KEY);
@@ -814,49 +738,6 @@
       });
     }
 
-    async function loadRandomVerse() {
-      verseMetaEl.textContent = 'Loading verse details…';
-      verseTextEl.textContent = 'Fetching an ayah…';
-      verseArabicEl.textContent = 'Loading Arabic text...';
-      openVerseLink.setAttribute('aria-disabled', 'true');
-      openVerseLink.href = 'https://quran.com';
-      const ayahNumber = getRandomAyahNumber();
-      const url = `https://api.alquran.cloud/v1/ayah/${ayahNumber}/editions/quran-uthmani,tr.yildirim`;
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Verse request failed');
-        const payload = await response.json();
-        const data = Array.isArray(payload.data) ? payload.data : [payload.data];
-        const arabicEdition = data.find((item) => item.edition?.language === 'ar');
-        const translationEdition = data.find((item) => item.edition?.identifier === 'tr.yildirim') || data.find((item) => item.edition?.language === 'tr') || data[0];
-
-        if (!translationEdition) throw new Error('Missing verse translation');
-
-        verseTextEl.textContent = translationEdition.text;
-        verseMetaEl.textContent = `${translationEdition.surah.englishName} (${translationEdition.surah.englishNameTranslation}) • Ayet ${translationEdition.numberInSurah}`;
-
-        if (arabicEdition) {
-          verseArabicEl.textContent = arabicEdition.text;
-        } else {
-          verseArabicEl.textContent = '';
-        }
-
-        const surahNumber = translationEdition.surah.number;
-        const ayahInSurah = translationEdition.numberInSurah;
-        openVerseLink.href = `https://quran.com/${surahNumber}/${ayahInSurah}`;
-        openVerseLink.setAttribute('aria-label', `Open ${translationEdition.surah.englishName} ayah ${ayahInSurah} on Quran.com`);
-        openVerseLink.removeAttribute('aria-disabled');
-      } catch (error) {
-        verseTextEl.textContent = 'Unable to load a verse right now.';
-        verseMetaEl.textContent = '';
-        verseArabicEl.textContent = '';
-        openVerseLink.setAttribute('aria-disabled', 'true');
-        openVerseLink.href = 'https://quran.com';
-        openVerseLink.setAttribute('aria-label', 'Open verse on Quran.com');
-        console.error(error);
-      }
-    }
-
     async function fetchWeather(latitude, longitude) {
       const pointUrl = `https://api.weather.gov/points/${latitude.toFixed(4)},${longitude.toFixed(4)}`;
       try {
@@ -950,7 +831,6 @@
       setInterval(updateClock, 1000);
 
       setUpSearchForms();
-      loadRandomVerse();
       requestWeather();
     });
   </script>
