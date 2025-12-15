@@ -300,6 +300,28 @@
       font-size: 15px;
     }
 
+    .location-footer {
+      display: flex;
+      justify-content: center;
+      padding-bottom: 4px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .location-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .location-link:hover {
+      text-decoration: underline;
+    }
+
+    .location-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
 
     #weather {
       display: flex;
@@ -431,6 +453,10 @@
         </div>
       </div>
     </section>
+
+    <footer class="location-footer" aria-label="Detected location">
+      <a id="location-link" class="location-link" aria-disabled="true" target="_blank" rel="noopener noreferrer">Locating…</a>
+    </footer>
   </div>
 
   <script>
@@ -440,6 +466,7 @@
     const gptForm = document.getElementById('gpt-search');
     const weatherDetailsEl = document.getElementById('weather-details');
     const weatherForecastEl = document.getElementById('weather-forecast');
+    const locationLinkEl = document.getElementById('location-link');
     const themeToggleBtn = document.getElementById('theme-toggle');
     const localPrayerTimeEls = {
       Fajr: document.getElementById('local-prayer-fajr'),
@@ -674,6 +701,42 @@
       }
     }
 
+    function setLocationLink(label, latitude, longitude) {
+      if (!locationLinkEl) return;
+      const coords = typeof latitude === 'number' && typeof longitude === 'number'
+        ? `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`
+        : null;
+      const nextLabel = (typeof label === 'string' && label.trim()) ? label.trim() : coords || 'Location unavailable';
+      const query = nextLabel === 'Location unavailable' ? null : nextLabel;
+
+      locationLinkEl.textContent = nextLabel;
+      if (query) {
+        locationLinkEl.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+        locationLinkEl.removeAttribute('aria-disabled');
+        locationLinkEl.style.pointerEvents = '';
+      } else {
+        locationLinkEl.removeAttribute('href');
+        locationLinkEl.setAttribute('aria-disabled', 'true');
+        locationLinkEl.style.pointerEvents = 'none';
+      }
+    }
+
+    function setLocationStatus(message) {
+      if (!locationLinkEl) return;
+      locationLinkEl.textContent = message;
+      locationLinkEl.removeAttribute('href');
+      locationLinkEl.setAttribute('aria-disabled', 'true');
+      locationLinkEl.style.pointerEvents = 'none';
+    }
+
+    function updateLocationFromPointData(pointData, latitude, longitude) {
+      const relative = pointData?.properties?.relativeLocation?.properties;
+      const city = relative?.city;
+      const state = relative?.state;
+      const label = city && state ? `${city}, ${state}` : (city || state || null);
+      setLocationLink(label, latitude, longitude);
+    }
+
     function readStoredTheme() {
       try {
         const value = localStorage.getItem(THEME_STORAGE_KEY);
@@ -748,6 +811,7 @@
         });
         if (!pointResponse.ok) throw new Error('Weather point lookup failed');
         const pointData = await pointResponse.json();
+        updateLocationFromPointData(pointData, latitude, longitude);
         const forecastUrl = pointData?.properties?.forecast ?? pointData?.properties?.forecastHourly;
         if (!forecastUrl) throw new Error('Missing forecast URL');
 
@@ -781,6 +845,9 @@
       } catch (error) {
         weatherDetailsEl.textContent = '--°F';
         weatherForecastEl.textContent = 'Unable to load weather.';
+        if (locationLinkEl?.textContent === 'Locating…') {
+          setLocationStatus('Location unavailable');
+        }
         console.error(error);
       }
     }
@@ -789,6 +856,7 @@
       weatherDetailsEl.textContent = '--°F';
       weatherForecastEl.textContent = 'Detecting your location…';
       setLocalPrayerTimesPlaceholder();
+      setLocationStatus('Locating…');
 
       const cached = getCachedLocation();
       if (cached) {
@@ -800,6 +868,7 @@
 
       if (!navigator.geolocation) {
         weatherForecastEl.textContent = 'Geolocation is not supported by your browser.';
+        setLocationStatus('Location unavailable');
         return;
       }
 
@@ -820,6 +889,7 @@
           }
           weatherDetailsEl.textContent = '--°F';
           setLocalPrayerTimesPlaceholder();
+          setLocationStatus('Location unavailable');
           console.error(error);
         },
         { enableHighAccuracy: false, timeout: 10000 }
