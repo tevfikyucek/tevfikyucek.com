@@ -284,8 +284,16 @@
       width: 100%;
     }
 
-    .search-card form + form {
-      margin-top: 16px;
+    .search-card-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .search-card-left,
+    .search-card-right {
+      min-width: 0;
     }
 
     .search-card input[type="search"] {
@@ -293,6 +301,15 @@
       padding: 16px 20px;
       font-size: 18px;
       border-radius: 14px;
+    }
+
+    .calculator-frame {
+      width: 100%;
+      height: min(360px, 50vh);
+      min-height: 300px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 14px;
+      background: #fff;
     }
 
     .muted {
@@ -370,6 +387,10 @@
         top: 16px;
         right: 16px;
       }
+
+      .search-card-layout {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -391,9 +412,17 @@
       <form id="google-search">
         <input type="search" name="query" placeholder="Search the web…" autocomplete="off" />
       </form>
-      <form id="gpt-search">
-        <input type="search" name="query" placeholder="Start a new chat…" autocomplete="off" />
-      </form>
+      <div class="search-card-layout">
+        <div class="search-card-left">
+          <iframe
+            class="calculator-frame"
+            title="Desmos scientific calculator"
+            src="https://www.desmos.com/scientific"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="search-card-right" aria-hidden="true"></div>
+      </div>
     </section>
 
     <section class="card prayer-card" aria-label="Prayer times">
@@ -463,7 +492,6 @@
     const timeEl = document.getElementById('time');
     const dateEl = document.getElementById('date');
     const googleForm = document.getElementById('google-search');
-    const gptForm = document.getElementById('gpt-search');
     const weatherDetailsEl = document.getElementById('weather-details');
     const weatherForecastEl = document.getElementById('weather-forecast');
     const locationLinkEl = document.getElementById('location-link');
@@ -652,14 +680,6 @@
         const query = event.target.query.value.trim();
         if (!query) return;
         const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-        window.location.href = url;
-      });
-
-      gptForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const query = event.target.query.value.trim();
-        if (!query) return;
-        const url = `https://chatgpt.com/?q=${encodeURIComponent(query)}`;
         window.location.href = url;
       });
     }
